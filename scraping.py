@@ -23,6 +23,7 @@ class Scrappy:
         sleep(2)
         self.scraping_datas()
 
+
     def input_texting(self):
 
         sleep(3)
@@ -48,36 +49,52 @@ class Scrappy:
 
         sleep(2)
         next_button2 = browser.find_elements(By.TAG_NAME, 'button')[-1]
-        next_button2.click()
+        next_button2.click() 
 
     def scraping_datas(self):
 
-        page_content = browser.page_source 
-        site = BeautifulSoup(page_content, 'html.parser')  
+        try:
 
-        property_list = []
+            next_page = browser.find_element(By.CLASS_NAME, '_1bfat5l')
+            while next_page:
 
-        properties = site.findAll('div', attrs={'itemprop': 'itemListElement'})
+                page_content = browser.page_source 
+                site = BeautifulSoup(page_content, 'html.parser')  
 
-        for _property in properties:
-    
-            prop_url = _property.find('meta', attrs={'itemprop': 'url'})
-            prop_url = prop_url['content']
+                property_list = []
 
-            prop_name = _property.find('div', attrs={'class': 't1jojoys dir dir-ltr'})
+                properties = site.findAll('div', attrs={'itemprop': 'itemListElement'})
 
-            prop_desc = _property.find('meta', attrs={'itemprop': 'name'})
-            prop_desc = prop_desc['content']
+                for _property in properties:
+            
+                    prop_url = _property.find('meta', attrs={'itemprop': 'url'})
+                    prop_url = prop_url['content']
 
-            night_prop_price = _property.find('span', attrs={'class': '_tyxjp1'})
+                    prop_name = _property.find('div', attrs={'class': 't1jojoys dir dir-ltr'})
 
-            property_list.append([prop_url, prop_name.text, prop_desc, night_prop_price.text])
+                    prop_desc = _property.find('meta', attrs={'itemprop': 'name'})
+                    prop_desc = prop_desc['content']
 
-        # Saving in Excel with Pandas
-        property_list = pd.DataFrame(property_list, columns=['Property link', 'Property name', 'Property description', 'Property price (night)'])
-        property_list.to_excel('properties.xlsx', index=False)
-        
-        print(property_list)
+                    night_prop_price = _property.find('span', attrs={'class': '_tyxjp1'})
+
+                    property_list.append([prop_url, prop_name.text, prop_desc, night_prop_price.text])
+
+                # Saving in Excel with Pandas
+                property_list = pd.DataFrame(property_list, columns=(['Url', 'Nome', 'Descrição', 'Preço']))
+                property_list.to_csv('properties.csv', sep=';', mode='a', index=False)
+
+                browser.execute_script("window.scrollTo(0, '12000');")
+
+                sleep(2)
+
+                next_page.click()
+
+                sleep(2)
+
+                print(property_list)
+
+        except:
+            print('Não temos mais páginas.')
 
 start_scrappy = Scrappy()
 start_scrappy.init()
