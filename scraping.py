@@ -80,8 +80,8 @@ class Scrappy:
                     property_list.append([prop_url, prop_name.text, prop_desc, night_prop_price.text])
 
                 # Saving in Excel with Pandas
-                property_list = pd.DataFrame(property_list, columns=(['Url', 'Nome', 'Descrição', 'Preço']))
-                property_list.to_csv('properties.csv', sep=';', mode='a', index=False)
+                property_list = pd.DataFrame(property_list)
+                property_list.to_csv('properties.csv', header=False, sep=';', mode='a', index=False, encoding='latin1')
 
                 browser.execute_script("window.scrollTo(0, '12000');")
 
