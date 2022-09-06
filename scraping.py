@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
 import pandas as pd
+from termcolor import colored
 
 options = webdriver.ChromeOptions()
 options.add_argument('window-size=400,800')
@@ -20,7 +21,7 @@ class Scrappy:
         self.input_texting()
         self.choosing_in_calendar()
         self.qtt_people()
-        sleep(2)
+        sleep(3)
         self.scraping_datas()
 
 
@@ -65,6 +66,7 @@ class Scrappy:
 
                 properties = site.findAll('div', attrs={'itemprop': 'itemListElement'})
 
+                print(colored('Coletando dados...', 'green'))
                 for _property in properties:
             
                     prop_url = _property.find('meta', attrs={'itemprop': 'url'})
@@ -79,9 +81,9 @@ class Scrappy:
 
                     property_list.append([prop_url, prop_name.text, prop_desc, night_prop_price.text])
 
-                # Saving in Excel with Pandas
+                # Saving in CSV
                 property_list = pd.DataFrame(property_list)
-                property_list.to_csv('properties.csv', header=False, sep=';', mode='a', index=False, encoding='latin1')
+                property_list.to_csv('properties.csv', header=False, sep=';', mode='a', index=False, encoding='utf8')
 
                 browser.execute_script("window.scrollTo(0, '12000');")
 
@@ -91,10 +93,9 @@ class Scrappy:
 
                 sleep(2)
 
-                print(property_list)
-
         except:
-            print('Não temos mais páginas.')
+
+            print(colored('Coletamos todas as páginas! O resultado está salvo no arquivo CSV dentro da pasta raíz.', 'green'))
 
 start_scrappy = Scrappy()
 start_scrappy.init()
