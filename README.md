@@ -18,9 +18,11 @@ O Airbnb Scraping é uma aplicação com o intuito de pegar as informações res
 - Salvar resultados em CSV.
 
 
-## Run Locally
+## Run Locally 
 
-Clone the project
+ Clone the project
+
+ (make sure you have Python 3 installed before run this) 
 
 ```bash
   git clone https://github.com/targ1no/airbnbScraping.git
@@ -49,4 +51,17 @@ Start the application
 * Python (Pandas, termcolor, time);
 * Selenium (Webdriver, By);
 * BeautifulSoup.
+
+
+## System/Browsers
+
+This project is only supported by the following browsers:
+
+- Windows
+  - Chrome
+
+
+## Support
+
+For support, email contatobrunatargino@gmail.com.
 
