@@ -63,5 +63,5 @@ This project is only supported by the following browsers:
 
 ## Support
 
-For support, email contatobrunatargino@gmail.com.
+For support, email contatobrunatargino@gmail.com
 
